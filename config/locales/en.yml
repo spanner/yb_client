@@ -1,0 +1,20 @@
+en:
+  activerecord:
+    attributes:
+      droom_client:
+        user:
+          name: "Your name"
+          email: "Email address"
+          preferred_name: "Preferred form of address"
+          password: "Password"
+          password_confirmation: "Confirm password"
+          remember_me: "Remember me"
+  already_signed_in: "You are already signed in."
+  authentication_required: "This part of the site is private. Please sign in to continue."
+  flash:
+    greeting: "<strong>Hello %{name}!<br>You have signed in."
+    goodbye: "<strong>Goodbye %{name}.</strong><br>You have signed out."
+  forgot_password: "Forgotten your password?"
+  please_sign_in: "Please sign in"
+  sign_in: "Sign in"
+  sign_out: "Sign out"
