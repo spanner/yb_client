@@ -10,7 +10,6 @@
 # satellite applications. This and other shared functionality like the Her extensions 
 # will end up in their own gem once it all settles down.
 
-require 'signed_json'
 require 'droom_client/auth_cookie'
 
 module DroomAuthentication
@@ -81,20 +80,18 @@ protected
   # and http-options also possible but our focus is on API consumers at the moment.
 
   def authenticate_user
-    RequestStore.store[:current_user] ||= user_from_session || authenticate_from_params || authenticate_from_cookie
+    RequestStore.store[:current_user] ||= authenticate_from_params || authenticate_from_cookie
   end
   
-  def user_from_session
-    session[:current_user]
-  end
-
   def authenticate_from_params
     authenticate_with(params[:uid], params[:auth_token]) if params[:uid].present? && params[:auth_token].present?
   end
   
+  # Auth is always remote, so that we also get single sign-out.
+  #
   def authenticate_with(uid, auth_token)
     if user = User.from_credentials(uid, auth_token)
-      session[:current_user] = user
+      RequestStore.store[:current_user] = user
     end
   end
 
@@ -113,19 +110,11 @@ protected
   # and then authentication is checked against the data room server.
   #
 
-  def cookie_signer
-    signer = SignedJson::Signer.new(Settings.auth.secret)
-  end
-
   # Cookie holds encoded array of [uid, auth_token]
   def authenticate_from_cookie
-    if cookie = cookies[Settings.auth.cookie_name]
-      begin
-        credentials = signer.decode(cookie)
-      rescue SignedJson::Error
-        credentials = [nil, nil, nil]
-      end
-      authenticate_with(credentials) if credentials.any?
+    cookie = DroomClient::AuthCookie.new(cookies)
+    if cookie.valid?
+      authenticate_with(cookie.uid, cookie.token)
     end
   end
 

@@ -1,5 +1,6 @@
-# Mostly taken from devise-login-cookie but adapted for our authentication situation.
-# In droom we've also pinched the devise strategy but here we are a relatively dumb satellite.
+# Loosely based from devise-login-cookie but adapted for our authentication situation.
+# In droom we've also pinched the devise strategy but here we are a relatively dumb satellite
+# with no independent user class.
 
 require 'signed_json'
 require "active_support/core_ext/hash/slice"
@@ -23,11 +24,11 @@ module DroomClient
 
     # The id of the resource (e.g. User) referenced in the cookie.
     def uid
-      value[0]
+      values[0]
     end
 
     def token
-      value[1]
+      values[1]
     end
 
     # The Time at which the cookie was created.

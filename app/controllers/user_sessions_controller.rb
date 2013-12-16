@@ -10,7 +10,6 @@ class UserSessionsController < ApplicationController
     if user = User.post(Settings.droom.auth_path, params[:user])
       RequestStore.store[:current_user] = user
       set_auth_cookie_for(user, Settings.auth.cookie_domain, params[:user][:remember_me])
-      session[:current_user] = user
       flash[:notice] = t("flash.greeting", name: user.formal_name).html_safe
       redirect_to after_sign_in_path_for(user)
     else
@@ -21,7 +20,6 @@ class UserSessionsController < ApplicationController
   def destroy
     user = current_user
     unset_auth_cookie(Settings.auth.cookie_domain)
-    session.delete :current_user
     RequestStore.store.delete :current_user
     flash[:notice] = t("flash.goodbye", name: user.formal_name).html_safe
     redirect_to after_sign_out_path_for(user)

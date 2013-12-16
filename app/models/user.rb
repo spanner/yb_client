@@ -21,7 +21,7 @@ class User
   end
 
   def self.from_credentials(uid, token)
-    self.where(uid: uid, authentication_token: token).first
+    self.get("/api/users/#{uid}/authenticate", token: token)
   end
 
   def send_confirmation_message!
@@ -48,7 +48,6 @@ class User
   def permitted?(key)
     permission_codes.include?(key)
   end
-  
   
   def allowed_here?
     permitted?("#{Settings.service_name}.login")
