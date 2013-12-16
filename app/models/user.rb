@@ -21,7 +21,11 @@ class User
   end
 
   def self.from_credentials(uid, token)
-    self.get("/api/users/#{uid}/authenticate", token: token)
+    begin
+      self.get "/api/users/#{uid}/authenticate", token: token
+    rescue JSON::ParserError
+      nil
+    end
   end
 
   def send_confirmation_message!
@@ -57,7 +61,6 @@ class User
     permitted?("#{Settings.service_name}.admin")
   end
   
-
 protected
 
   def ensure_uid!

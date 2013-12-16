@@ -109,7 +109,6 @@ protected
   # are used to provide simple SSO support. A shared secret is required to decode the cookie,
   # and then authentication is checked against the data room server.
   #
-
   # Cookie holds encoded array of [uid, auth_token]
   def authenticate_from_cookie
     cookie = DroomClient::AuthCookie.new(cookies)

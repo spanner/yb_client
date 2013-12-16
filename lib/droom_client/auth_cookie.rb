@@ -57,6 +57,8 @@ module DroomClient
     def values
       begin
         @values = signer.decode(@cookies[cookie_name])
+        Rails.logger.warn "??? cookie values(#{@values.inspect})"
+        @values
       rescue SignedJson::Error
         [nil, nil, nil]
       end
