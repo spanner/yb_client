@@ -1,4 +1,5 @@
 # Mostly taken from devise-login-cookie but adapted for our authentication situation.
+# In droom we've also pinched the devise strategy but here we are a relatively dumb satellite.
 
 require 'signed_json'
 require "active_support/core_ext/hash/slice"
@@ -6,9 +7,8 @@ require "active_support/core_ext/hash/slice"
 module DroomClient
   class AuthCookie
 
-    def initialize(cookies, scope)
+    def initialize(cookies)
       @cookies = cookies
-      @scope = scope
     end
 
     # Sets the cookie, referencing the given resource.id (e.g. User)
@@ -17,8 +17,8 @@ module DroomClient
     end
 
     # Unsets the cookie via the HTTP response.
-    def unset
-      @cookies.delete cookie_name, cookie_options
+    def unset(options={})
+      @cookies.delete cookie_name, cookie_options.merge(options)
     end
 
     # The id of the resource (e.g. User) referenced in the cookie.

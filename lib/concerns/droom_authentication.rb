@@ -11,8 +11,9 @@
 # will end up in their own gem once it all settles down.
 
 require 'signed_json'
+require 'droom_client/auth_cookie'
 
-module DroomClient::Authentication
+module DroomAuthentication
   extend ActiveSupport::Concern
 
   included do
@@ -35,13 +36,7 @@ module DroomClient::Authentication
   end
 
   def default_location_for(user)
-    if user.admin?
-      search_url
-    elsif page = user.page
-      page_url(page)
-    else
-      root_path
-    end
+    root_path
   end
 
   def after_sign_in_path_for(user)
@@ -135,20 +130,12 @@ protected
   end
 
   def set_auth_cookie_for(user, domain, remember=false)
-    cookie = {
-      value: cookie_signer.encode([user.uid, user.authentication_token, Time.now]),
-      domain: domain
-    }
-    if remember
-      cookie[:expiry] = Time.now + Settings.auth.cookie_period 
-    end
-    Rails.logger.warn("~~~> setting cookie:")
-    Rails.logger.ap cookie
-    cookies[Settings.auth.cookie_name] = cookie
+    expires = Time.now + (Settings.auth.cookie_period || 1).days if remember
+    DroomClient::AuthCookie.new(cookies).set(user, domain: domain, expires: expires)
   end
   
   def unset_auth_cookie(domain=nil)
-    cookies.delete Settings.auth.cookie_name, domain: domain
+    DroomClient::AuthCookie.new(cookies).unset(domain: domain)
   end
 
 end

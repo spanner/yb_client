@@ -1,6 +1,8 @@
+require 'concerns/droom_authentication'
+require 'concerns/hk_names'
+
 module DroomClient
   class Engine < ::Rails::Engine
-    isolate_namespace DroomClient
 
     config.generators do |g|
       g.test_framework :rspec
@@ -9,7 +11,7 @@ module DroomClient
     
     initializer "droom_client.integration" do
       ActiveSupport.on_load :action_controller do
-        include DroomClient::Authentication
+        helper DroomClientHelper
       end
     end
 

@@ -1,4 +1,4 @@
-module DroomClient::HasDroomUser
+module HasDroomUser
   extend ActiveSupport::Concern
 
   included do
@@ -38,11 +38,11 @@ module DroomClient::HasDroomUser
   end
   
   def invite!
-    Rails.logger.warn "~~~> HDU invite! #{self.inspect}"
     if droom_user?
-      if droom_user.unconfirmed?
-        droom_user.send_confirmation_message!
-      end
+      # if droom_user.unconfirmed?
+      #   droom_user.send_confirmation_message!
+      # end
+      #TODO: configurable mailer class
       if invitation = GapMailer.send("invitation_to_#{self.class.to_s.downcase}".to_sym, self)
         if invitation.deliver
           self.update_column :invited_at, Time.zone.now
@@ -65,7 +65,7 @@ module DroomClient::HasDroomUser
   def droom_user
     begin
       if droom_user_uid
-        DroomUser.find(droom_user_uid)
+        DroomClient::User.find(droom_user_uid)
       end
     rescue
       Rails.logger.warn "Screener #{self.id} has a user uid that corresponds to no m data room user. Perhaps someone has been deleted? Ignoring."
@@ -77,7 +77,7 @@ module DroomClient::HasDroomUser
   #
   def droom_user_attributes=(attributes)
     Rails.logger.warn "setting droom_user_attributes = #{attributes}"
-    droom_user = DroomUser.new_with_defaults
+    droom_user = DroomClient::User.new_with_defaults
     droom_user.assign_attributes(attributes)
     # We assign this object to the user with either screener= or interviewer=
     # Upon successful creation this will trigger the after_save callback that
@@ -134,7 +134,7 @@ module DroomClient::HasDroomUser
   end
   
   def user
-    User.where(uid: droom_user_uid).first if droom_user_uid?
+    DroomClient::User.where(uid: droom_user_uid).first if droom_user_uid?
   end
   
 end

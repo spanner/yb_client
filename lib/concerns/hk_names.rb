@@ -1,6 +1,4 @@
-# This is separated so that we can include the same file in several sites, rather than for local reuse.
-
-module DroomClient::HkNames
+module HkNames
   extend ActiveSupport::Concern
 
   ## Names
