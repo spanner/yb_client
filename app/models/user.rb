@@ -33,6 +33,12 @@ class User
     self.save
   end
 
+  def sign_out!
+    # auth token is passed in request headers as with other api calls
+    # so this should be enough to invalidate the session of the current user
+    self.class.put "/api/users/deauthenticate"
+  end
+
   def unconfirmed?
     !!self.confirmed
   end

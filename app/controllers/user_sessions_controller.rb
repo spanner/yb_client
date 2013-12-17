@@ -19,6 +19,7 @@ class UserSessionsController < ApplicationController
 
   def destroy
     if @user = current_user
+      @user.sign_out!
       RequestStore.store.delete :current_user
       flash[:notice] = t("flash.goodbye", name: @user.formal_name).html_safe
     end
