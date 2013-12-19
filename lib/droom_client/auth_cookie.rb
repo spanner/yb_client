@@ -49,6 +49,10 @@ module DroomClient
     def set_since?(time)
       created_at && created_at >= time
     end
+    
+    def inspect
+      values.inspect
+    end
 
   private
     
@@ -56,9 +60,7 @@ module DroomClient
     #
     def values
       begin
-        @values = signer.decode(@cookies[cookie_name])
-        Rails.logger.warn "??? cookie values(#{@values.inspect})"
-        @values
+        signer.decode(@cookies[cookie_name])
       rescue SignedJson::Error
         [nil, nil, nil]
       end

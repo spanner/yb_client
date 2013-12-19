@@ -7,20 +7,37 @@ class User
   root_element :user
   request_new_object_on_build true
 
-  before_create :set_defer_confirmation
+  after_create :assign_to_associates
+
+  def new?
+    uid.nil?
+  end
+
+  def associates
+    @associates ||= []
+  end
+  
+  def associates=(these)
+    @associates = these
+  end
 
   def self.new_with_defaults
     self.new({
-      uid: "",
+      uid: nil,
       title: "",
       given_name: "",
       family_name: "",
+      chinese_name: "",
       email: "",
-      phone: ""
+      phone: "",
+      password: "",
+      permission_codes: "",
+      defer_confirmation: true
     })
   end
 
   def self.from_credentials(uid, token)
+    Rails.logger.debug "<== Authenticating user with #{uid}, #{token}"
     begin
       self.get "/api/users/#{uid}/authenticate", token: token
     rescue JSON::ParserError
@@ -67,15 +84,32 @@ class User
     permitted?("#{Settings.service_name}.admin")
   end
   
-protected
+  def image
+    images[:standard]
+  end
+  
+  def icon
+    images[:icon]
+  end
 
-  def ensure_uid!
-    self.uid = SecureRandom.uuid if self.uid.blank?
+  def thumbnail
+    images[:thumbnail]
   end
   
-  def set_defer_confirmation
-    self.defer_confirmation = true
+protected
+    
+  # We can't create associations with this user object until it has a uid, which for a new user
+  # requires it to be saved first. For nested inline creation that means deferring assignment
+  # until after user creation. To assign this user, push objects into its @associates array and
+  # make sure they respond to user= (eg by including the HasDroomUser concern).
+  #
+  # The actual assignment happens in this after_save callback.
+  #
+  def assign_to_associates
+    Rails.logger.debug "==>  #{self.class}#assign_to_associates"
+    associates.each do |ass|
+      ass.user = self
+    end
   end
-  
 
 end

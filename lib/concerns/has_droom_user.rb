@@ -1,116 +1,68 @@
+# The purpose of this module is to make it easy to associate a droom user to a local object.
+# It often happens that 
+
 module HasDroomUser
   extend ActiveSupport::Concern
 
-  included do
-    attr_accessor :newly_accepted
-    
-    scope :accepted, -> {
-      where("accepted_at IS NOT NULL")
-    }
-
-    scope :unaccepted, -> {
-      where("accepted_at IS NULL")
-    }
-
-    scope :invited, -> {
-      where("invited_at IS NOT NULL")
-    }
-
-    scope :uninvited, -> {
-      where("invited_at IS NULL")
-    }
-  end
-
-  def invited?
-    invited_at?
-  end
-
-  def uninvited?
-    !invited?
-  end
-
-  def accepted?
-    accepted_at?
-  end
-
-  def unaccepted?
-    !accepted?
-  end
-  
-  def invite!
-    if droom_user?
-      # if droom_user.unconfirmed?
-      #   droom_user.send_confirmation_message!
-      # end
-      #TODO: configurable mailer class
-      if invitation = GapMailer.send("invitation_to_#{self.class.to_s.downcase}".to_sym, self)
-        if invitation.deliver
-          self.update_column :invited_at, Time.zone.now
-        end
-      end
-    end
-  end
-
-  def accept!
-    unless accepted?
-      self.update_column :accepted_at, Time.zone.now
-      self.newly_accepted = true
-    end
-  end
-
-  def newly_accepted?
-    !!newly_accepted
-  end
-
-  def droom_user
+  ## Get
+  #
+  # Users are associated by uid in the hope of database and device independence. All we do here is go and get it.
+  #
+  def user
     begin
-      if droom_user_uid
-        DroomClient::User.find(droom_user_uid)
+      if user_uid
+        DroomClient::User.find(user_uid)
       end
     rescue
-      Rails.logger.warn "Screener #{self.id} has a user uid that corresponds to no m data room user. Perhaps someone has been deleted? Ignoring."
+      Rails.logger.warn "#{self.class} #{self.id} has a user_uid that corresponds to no known data room user. Perhaps someone has been deleted? Ignoring."
       nil
     end
   end
 
-  # The only time +droom_user_attributes=+ would be called is during the creation of a new droom_user object.
+  ## Set
   #
-  def droom_user_attributes=(attributes)
-    Rails.logger.warn "setting droom_user_attributes = #{attributes}"
-    droom_user = DroomClient::User.new_with_defaults
-    droom_user.assign_attributes(attributes)
-    # We assign this object to the user with either screener= or interviewer=
-    # Upon successful creation this will trigger the after_save callback that
-    # assigns the user back to the object, by then with its uid in place.
-    droom_user.send "#{self.class.to_s.downcase}=".to_sym, self
-    droom_user.save
-  end
-
-  # +droom_user=+ will be called in two situations: during a compound save with an existing droom_user object, 
-  # or during the after_save callback of a newly created droom_user with that object.
-  # If we are persisted and not otherwise changed, we assume the latter case and save ourselves. It shouldn't
-  # do any harm if unnecessary. Otherwise we assume that the controller is handling persistence and merely assign.
+  # Users are assigned in two ways: by direct association to an existing user object, or by the inline creation of a new
+  # user object during the creation of a local object.
   #
-  def droom_user=(droom_user)
+  # ### Assigning an existing user
+  #
+  # +user=+ will be called in two situations: during a compound save with an existing user object, 
+  # or immediately upon the creeation of a new user, on the object that it was created with.
+  # We only save ourselves if nothing else is going on: if this record is new or has other changes,
+  # we assume that this is part of a larger save operation.
+  #
+  def user=(user)
+    Rails.logger.debug "==>  #{self.class}#user = #{user.inspect}"
     also_save = self.persisted? && !self.changed?
-    self.droom_user_uid = droom_user.uid
+    self.user_uid = user.uid
+    Rails.logger.debug "==> also_save is #{also_save.inspect}"
     self.save if also_save
   end
+
+  # ### Nested creation of a new user
+  #
+  # +user_attributes=+ is only ever called during the nested creation of a new user object. Existing user objects
+  # are not available for nested editing, allowing us to omit most of the complexity of nested_attributes.
+  #
+  def user_attributes=(attributes)
+    Rails.logger.debug "==>  #{self.class}#user_attributes = #{attributes.inspect}"
+    user = User.new_with_defaults
+    user.assign_attributes(attributes)
+    user.save
+    self.user = user
+  end
+
   
-  def droom_user?
-    droom_user_uid? && droom_user
+  def user?
+    user_uid? && user
   end
   
   def confirmed?
-    !!droom_user.confirmed if droom_user
-  end
-
-  def unconfirmed?
-    !confirmed?
+    !!user.confirmed if user?
   end
   
   def send_confirmation_message!
-    droom_user.send_confirmation_message! if droom_user
+    user.send_confirmation_message! if user?
   end
 
   def status
@@ -118,23 +70,23 @@ module HasDroomUser
   end
   
   def name
-    droom_user.name if droom_user
+    user.name if user?
   end
 
   def formal_name
-    droom_user.formal_name if droom_user
+    user.formal_name if user?
   end
 
   def icon
-    droom_user.icon if droom_user
+    user.icon if user?
   end
 
   def email
-    droom_user.email if droom_user
+    user.email if user?
   end
   
   def user
-    DroomClient::User.where(uid: droom_user_uid).first if droom_user_uid?
+    User.find(user_uid) if user_uid?
   end
-  
+    
 end

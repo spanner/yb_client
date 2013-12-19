@@ -88,10 +88,11 @@ protected
   end
   
   # Auth is always remote, so that we also get single sign-out.
+  # Note this returns user if found, false if none, allowing authenticate_user to try something else.
   #
   def authenticate_with(uid, auth_token)
     if user = User.from_credentials(uid, auth_token)
-      RequestStore.store[:current_user] = user
+      sign_in(user)
     end
   end
 
@@ -102,7 +103,15 @@ protected
   def user_signed_in?
     !!current_user
   end
-
+  
+  def sign_in(user)
+    RequestStore.store[:current_user] = user
+  end
+  
+  def sign_in_and_remember(user)
+    sign_in(user)
+    set_auth_cookie_for(user, Settings.auth.cookie_domain)
+  end
 
 
   ## Domain cookies 

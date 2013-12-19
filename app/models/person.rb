@@ -7,21 +7,6 @@ class Person
   has_many :tags
   belongs_to :country, foreign_key: :country_code
 
-  # Associations between remote and local models are difficult to establish
-  # and never work very well, so we handle that directly.
-
-  def page
-    Page.where(person_uid: uid).first
-  end
-
-  def page?
-    !!page
-  end
-
-  def publications
-    page.publications if page?
-  end
-
   def ias?
     !!ias
   end

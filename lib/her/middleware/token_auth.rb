@@ -7,7 +7,9 @@ module Her::Middleware
 
     def call(env)
       if RequestStore.store[:current_user]
-        env[:request_headers]["AUTHORIZATION"] = "Token token=#{RequestStore.store[:current_user].authentication_token}"
+        token = RequestStore.store[:auth_token]
+        #RequestStore.store[:current_user].authentication_token
+        env[:request_headers]["AUTHORIZATION"] = "Token token=#{token}"
       end
       @app.call(env)
     end
