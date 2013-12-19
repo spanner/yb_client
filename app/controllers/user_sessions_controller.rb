@@ -2,7 +2,7 @@ class UserSessionsController < ApplicationController
   before_filter :require_no_user!, only: [:new, :create]
 
   def new
-    @user = User.new(email: "", password: "", remember_me: false)
+    @user = User.new_with_defaults
     render
   end
 

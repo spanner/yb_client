@@ -32,6 +32,7 @@ class User
       phone: "",
       password: "",
       permission_codes: "",
+      remember_me: false,
       defer_confirmation: true
     })
   end
