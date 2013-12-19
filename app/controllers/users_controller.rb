@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  respond_to :json
+  respond_to :html, :json
   before_filter :get_users, only: [:index]
-  before_filter :get_user, only: [:update]
+  before_filter :get_user, only: [:edit, :update]
 
   # User-creation is always nested. 
   # Our usual purpose here is to list suggestions for the administrator choosing interviewers or screening judges
@@ -10,10 +10,12 @@ class UsersController < ApplicationController
     respond_with @users.to_a
   end
   
-  # ...but we can also confirm user accounts on arrival to save people a round trip. None of this will happen
-  # unless they are signed in as a user who can do that in the data room (which usually means they have to be
-  # signed in as this user).
+  # But people can change their settings, or confirm their account.
   #
+  def edit
+    respond_with @user
+  end
+  
   def update
     authorize! :update, @user
     @user.assign_attributes(user_params)
@@ -28,8 +30,11 @@ class UsersController < ApplicationController
 protected
 
   def get_user
-    @user = DroomUser.find(params[:id])
-    Rails.logger.warn "@user: #{@user.inspect} for id #{params[:id]}"
+    if params[:uid].present? && can?(:manage, User)
+      @user = User.find(params[:uid])
+    else
+      @user = current_user
+    end
   end
 
   def get_users

@@ -1,0 +1,31 @@
+- if @user.persisted? && @person.unconfirmed_email?
+  - @user.email = @person.unconfirmed_email
+
+= form_for @user do |f|
+
+  %fieldset.contacts
+    %p
+      = f.label :email, :class => 'required'
+      = f.email_field :email, :required => true
+      %br
+      %span.formnote
+        = t("notes.user_email")
+
+  %fieldset.password
+    = f.fields_for :user, current_user do |uf|
+      %p.passwords.twocol
+        %span.col.password>
+          = uf.label :password, label_attributes
+          = uf.password_field :password, :placeholder => placeholder, :required => password_required, :data => {:role => "password"}
+
+        %span.col{:data => {:role => "confirmation"}}>
+          = uf.label :password_confirmation, label_attributes
+          = uf.password_field :password_confirmation, :required => password_required
+
+      %p.formnote
+        = t :leave_password
+    
+      %p.note.password_notice
+
+  %fieldset.buttons
+    = f.submit t(:save_changes)
