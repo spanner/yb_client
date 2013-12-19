@@ -1,7 +1,7 @@
-- if @user.persisted? && @person.unconfirmed_email?
-  - @user.email = @person.unconfirmed_email
+- if @user.persisted? && @user.unconfirmed_email?
+  - @user.email = @user.unconfirmed_email
 
-= form_for @user do |f|
+= form_for @user, html: {autocomplete: "off"} do |f|
 
   %fieldset.contacts
     %p
@@ -12,20 +12,21 @@
         = t("notes.user_email")
 
   %fieldset.password
-    = f.fields_for :user, current_user do |uf|
-      %p.passwords.twocol
-        %span.col.password>
-          = uf.label :password, label_attributes
-          = uf.password_field :password, :placeholder => placeholder, :required => password_required, :data => {:role => "password"}
+    %p.set_password
+      %span.col.password>
+        = f.label :password
+        = f.password_field :password, :placeholder => t("placeholders.user.password"), :required => false, :data => {:role => "password"}
 
-        %span.col{:data => {:role => "confirmation"}}>
-          = uf.label :password_confirmation, label_attributes
-          = uf.password_field :password_confirmation, :required => password_required
+      %span.col{:data => {:role => "confirmation"}}>
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation, :required => false
 
-      %p.formnote
+      %span.formnote
         = t :leave_password
-    
-      %p.note.password_notice
+  
+    %p.note.password_notice
 
   %fieldset.buttons
     = f.submit t(:save_changes)
+    = t :or
+    = link_to t(:cancel), '#', class: "cancel"

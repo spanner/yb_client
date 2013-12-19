@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   respond_to :html, :json
   before_filter :get_users, only: [:index]
   before_filter :get_user, only: [:edit, :update]
+  layout :no_layout_if_pjax
 
   # User-creation is always nested. 
   # Our usual purpose here is to list suggestions for the administrator choosing interviewers or screening judges
@@ -30,11 +31,12 @@ class UsersController < ApplicationController
 protected
 
   def get_user
-    if params[:uid].present? && can?(:manage, User)
-      @user = User.find(params[:uid])
+    if params[:id].present? && can?(:manage, User)
+      @user = User.find(params[:id])
     else
       @user = current_user
     end
+    Rails.logger.warn "@user: #{@user.inspect}"
   end
 
   def get_users

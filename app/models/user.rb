@@ -61,6 +61,10 @@ class User
     !!self.confirmed
   end
 
+  def unconfirmed_email?
+    self.unconfirmed_email.present?
+  end
+
   def to_param
     uid
   end
@@ -96,6 +100,7 @@ class User
   def thumbnail
     images[:thumbnail]
   end
+  
   
 protected
     
