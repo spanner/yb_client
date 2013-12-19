@@ -32,27 +32,29 @@ module HasDroomUser
   # we assume that this is part of a larger save operation.
   #
   def user=(user)
-    Rails.logger.debug "==>  #{self.class}#user = #{user.inspect}"
     also_save = self.persisted? && !self.changed?
     self.user_uid = user.uid
-    Rails.logger.debug "==> also_save is #{also_save.inspect}"
     self.save if also_save
   end
 
   # ### Nested creation of a new user
   #
-  # +user_attributes=+ is only ever called during the nested creation of a new user object. Existing user objects
-  # are not available for nested editing, allowing us to omit most of the complexity of nested_attributes.
+  # +user_attributes=+ is only usually called during the nested creation of a new user object but it
+  # is also possible for people to update some of their account settings through a remote service.
   #
   def user_attributes=(attributes)
     Rails.logger.debug "==>  #{self.class}#user_attributes = #{attributes.inspect}"
-    user = User.new_with_defaults
-    user.assign_attributes(attributes)
-    user.save
-    self.user = user
+    if self.user?
+      self.user.assign_attributes(attributes)
+      self.user.save
+    else
+      user = User.new_with_defaults
+      user.assign_attributes(attributes)
+      user.save
+      self.user = user
+    end
   end
 
-  
   def user?
     user_uid? && user
   end
