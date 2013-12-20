@@ -45,7 +45,7 @@ class User
   end
   
   def self.for(person)
-    self.where(person_uid: person.uid)
+    self.find_by(person_uid: person.uid)
   end
 
   def send_confirmation_message!
