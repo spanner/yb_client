@@ -45,7 +45,17 @@ class User
   end
   
   def self.for(person)
-    self.find_by(person_uid: person.uid)
+    self.where(person_uid: person.uid).first
+  end
+  
+  def self.find_or_create_for(person)
+    User.for(person) || User.create({
+      person_uid: person.uid,
+      given_name: person.given_name,
+      family_name: person.family_name,
+      chinese_name: person.chinese_name,
+      email: person.email
+    })
   end
 
   def send_confirmation_message!
