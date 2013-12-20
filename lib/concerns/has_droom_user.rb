@@ -44,14 +44,16 @@ module HasDroomUser
   #
   def user_attributes=(attributes)
     Rails.logger.debug "==>  #{self.class}#user_attributes = #{attributes.inspect}"
-    if self.user?
-      self.user.assign_attributes(attributes)
-      self.user.save
-    else
-      user = User.new_with_defaults
-      user.assign_attributes(attributes)
-      user.save
-      self.user = user
+    if attributes.any?
+      if self.user?
+        self.user.assign_attributes(attributes)
+        self.user.save
+      else
+        user = User.new_with_defaults
+        user.assign_attributes(attributes)
+        user.save
+        self.user = user
+      end
     end
   end
 

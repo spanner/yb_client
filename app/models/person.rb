@@ -24,5 +24,17 @@ class Person
       "scholar"
     end
   end
+  
+  def image
+    images[:standard]
+  end
+
+  def thumbnail
+    images[:thumbnail]
+  end
+
+  def icon
+    images[:icon]
+  end
 
 end

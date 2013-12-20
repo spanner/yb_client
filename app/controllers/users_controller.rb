@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   respond_to :html, :json
   before_filter :get_users, only: [:index]
-  before_filter :get_user, only: [:edit, :update]
+  before_filter :get_user, only: [:show, :edit, :update, :confirm]
   layout :no_layout_if_pjax
 
   # User-creation is always nested. 
@@ -11,9 +11,13 @@ class UsersController < ApplicationController
     respond_with @users.to_a
   end
   
-  # But people can change their settings, or confirm their account.
+  # But people can change basic settings
   #
   def edit
+    respond_with @user
+  end
+  
+  def show
     respond_with @user
   end
   
@@ -21,11 +25,16 @@ class UsersController < ApplicationController
     authorize! :update, @user
     @user.assign_attributes(user_params)
     @user.save
-    if params[:destination].present?
-      redirect_to params[:destination]
-    else
-      redirect_to root_url
-    end
+    respond_with @user
+  end
+  
+  # ...or confirm their account.
+  
+  def confirm
+    authorize! :update, @user
+    @user.assign_attributes(user_params)
+    @user.save
+    respond_with @user, location: params[:destination].present? ? params[:destination] : root_url
   end
 
 protected
@@ -36,12 +45,11 @@ protected
     else
       @user = current_user
     end
-    Rails.logger.warn "@user: #{@user.inspect}"
   end
 
   def get_users
-    @users = DroomUser.all
-    @show = params[:show] || 20
+    @users = User.all
+    @show = params[:show] || 10
     @page = params[:page] || 1
     unless @show == 'all'
       @users = @users.page(@page).per(@show) 
@@ -50,7 +58,7 @@ protected
   end
 
   def user_params
-    params.require(:user).permit(:password, :password_confirmation, :confirmed)
+    params.require(:user).permit(:email, :password, :password_confirmation, :confirmed)
   end
 
 end
