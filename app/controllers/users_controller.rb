@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   respond_to :html, :json
   before_filter :get_users, only: [:index]
-  before_filter :get_user, only: [:show, :edit, :update, :confirm]
+  before_filter :get_user, only: [:show, :edit, :update, :confirm, :welcome]
   layout :no_layout_if_pjax
 
   # User-creation is always nested. 
@@ -17,8 +17,17 @@ class UsersController < ApplicationController
     respond_with @user
   end
   
-  def show
-    respond_with @user
+  def welcome
+    if @user = User.find_by(uid: params[:id], authentication_token: params[:tok])
+      sign_in_and_remember @user
+      if @user.confirmed?
+        redirect_to after_sign_in_path_for(@user)
+      else
+        respond_with @user
+      end
+    else
+      raise ActiveRecord::RecordNotFound, "Sorry: User credentials not recognised."
+    end
   end
   
   def update
@@ -33,6 +42,7 @@ class UsersController < ApplicationController
   def confirm
     authorize! :update, @user
     @user.assign_attributes(user_params)
+    @user.assign_attributes(confirmed: true)
     @user.save
     respond_with @user, location: params[:destination].present? ? params[:destination] : root_url
   end

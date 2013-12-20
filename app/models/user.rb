@@ -43,6 +43,10 @@ class User
       nil
     end
   end
+  
+  def self.for(person)
+    self.where(person_uid: person.uid)
+  end
 
   def send_confirmation_message!
     self.assign_attributes send_confirmation: true

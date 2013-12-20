@@ -1,0 +1,21 @@
+- user ||= @user
+- destination ||= false
+
+= form_for :user, user, url: confirm_user_path(user), method: "PUT" do |f|
+  - if destination
+    = hidden_field_tag :destination, destination
+  
+  %fieldset{data: {role: 'password'}}
+    %p.set_password
+      %span.col.password>
+        = f.label :password, class: "required"
+        = f.password_field :password, placeholder: "Six characters or more, please", required: true, data: {role: "password"}
+
+      %span.col.confirmation{:data => {:role => "confirmation"}}>
+        = f.label :password_confirmation, class: "required"
+        = f.password_field :password_confirmation, placeholder: "", required: true
+
+      %span.col.button
+        %label
+          &nbsp;
+        = f.submit "Save password and continue"

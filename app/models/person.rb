@@ -36,5 +36,9 @@ class Person
   def icon
     images[:icon]
   end
+  
+  def user
+    User.for(self)
+  end
 
 end
