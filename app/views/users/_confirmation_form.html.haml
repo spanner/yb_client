@@ -1,7 +1,7 @@
 - user ||= @user
 - destination ||= false
 
-= form_for :user, user, url: confirm_user_path(user), method: "PUT" do |f|
+= form_for @user, url: confirm_user_path(user), method: "PUT" do |f|
   - if destination
     = hidden_field_tag :destination, destination
   

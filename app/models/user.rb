@@ -6,6 +6,7 @@ class User
   collection_path "/api/users"
   root_element :user
   request_new_object_on_build true
+  primary_key :uid
 
   def new?
     uid.nil?

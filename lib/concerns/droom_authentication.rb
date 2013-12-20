@@ -47,6 +47,10 @@ module DroomAuthentication
   def after_sign_out_path_for(user)
     root_path
   end
+  
+  def after_user_update_path_for(user)
+    root_path
+  end
 
 protected
   

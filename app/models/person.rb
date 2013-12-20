@@ -38,7 +38,15 @@ class Person
   end
   
   def user
-    User.for(self)
+    @user ||= User.for(self)
+  end
+  
+  def user?
+    !!user
+  end
+  
+  def find_or_create_user
+    @user ||= User.find_or_create_for(self)
   end
 
 end

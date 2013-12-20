@@ -18,7 +18,8 @@ class UsersController < ApplicationController
   end
   
   def welcome
-    if @user = User.find_by(uid: params[:id], authentication_token: params[:tok])
+    @user = User.from_credentials(params[:id], params[:tok])
+    if @user
       sign_in_and_remember @user
       if @user.confirmed?
         redirect_to after_sign_in_path_for(@user)
