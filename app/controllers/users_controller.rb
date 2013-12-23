@@ -17,6 +17,15 @@ class UsersController < ApplicationController
     respond_with @user
   end
   
+  def update
+    authorize! :update, @user
+    @user.assign_attributes(user_params)
+    @user.save
+    respond_with @user
+  end
+  
+  # ...or confirm their account.
+  
   def welcome
     @user = User.from_credentials(params[:id], params[:tok])
     if @user
@@ -30,22 +39,13 @@ class UsersController < ApplicationController
       raise ActiveRecord::RecordNotFound, "Sorry: User credentials not recognised."
     end
   end
-  
-  def update
-    authorize! :update, @user
-    @user.assign_attributes(user_params)
-    @user.save
-    respond_with @user
-  end
-  
-  # ...or confirm their account.
-  
+
   def confirm
     authorize! :update, @user
     @user.assign_attributes(user_params)
     @user.assign_attributes(confirmed: true)
     @user.save
-    respond_with @user, location: params[:destination].present? ? params[:destination] : root_url
+    respond_with @user, location: params[:destination].present? ? params[:destination] : after_sign_in_path_for(@user)
   end
 
 protected
