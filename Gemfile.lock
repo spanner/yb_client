@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    droom_client (0.0.1)
+    cdb_client (0.0.1)
       her
       rails (~> 4.0.2)
       request_store
@@ -121,7 +121,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  droom_client!
+  cdb_client!
   factory_girl_rails
   rspec-rails
   shoulda-matchers

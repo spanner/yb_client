@@ -1,6 +1,6 @@
 class Person
-  include HkNames
-  include Her::PaginatedModel
+  include CdbClient::HkNames
+  include PaginatedAuthorizedHer::Model
   primary_key :uid
 
   has_many :awards
@@ -37,16 +37,16 @@ class Person
     images[:icon]
   end
   
-  def user
-    @user ||= User.for(self)
-  end
-  
-  def user?
-    !!user
-  end
-  
-  def find_or_create_user
-    @user ||= User.find_or_create_for(self)
-  end
+  # def user
+  #   @user ||= User.for(self)
+  # end
+  # 
+  # def user?
+  #   !!user
+  # end
+  # 
+  # def find_or_create_user
+  #   @user ||= User.find_or_create_for(self)
+  # end
 
 end

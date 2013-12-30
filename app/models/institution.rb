@@ -1,5 +1,5 @@
 class Institution
-  include Her::PaginatedModel
+  include PaginatedAuthorizedHer::Model
   belongs_to :country, foreign_key: :country_code
 
   # *for_selection* returns a set of [name, id] pairs suitable for use as select options.

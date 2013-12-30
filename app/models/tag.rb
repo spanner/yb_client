@@ -1,3 +1,3 @@
 class Tag
-  include Her::PaginatedModel
+  include PaginatedAuthorizedHer::Model
 end

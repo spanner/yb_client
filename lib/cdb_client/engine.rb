@@ -1,8 +1,8 @@
-require 'concerns/droom_authentication'
-require 'concerns/has_droom_user'
+require 'concerns/cdb_authentication'
+require 'concerns/has_cdb_user'
 require 'concerns/hk_names'
 
-module DroomClient
+module CdbClient
   class Engine < ::Rails::Engine
 
     config.generators do |g|
@@ -10,9 +10,9 @@ module DroomClient
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
     end
     
-    initializer "droom_client.integration" do
+    initializer "cdb_client.integration" do
       ActiveSupport.on_load :action_controller do
-        helper DroomClientHelper
+        helper CdbClientHelper
       end
     end
 

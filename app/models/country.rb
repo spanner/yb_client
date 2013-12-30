@@ -1,5 +1,5 @@
 class Country
-  include Her::PaginatedModel
+  include PaginatedAuthorizedHer::Model
 
   def self.for_selection
     countries = self.all.sort_by(&:name)

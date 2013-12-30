@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :droom_client do
+# task :cdb_client do
 #   # Task goes here
 # end

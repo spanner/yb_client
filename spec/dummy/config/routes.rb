@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
 
-  mount DroomClient::Engine => "/droom_client"
+  mount CdbClient::Engine => "/cdb_client"
 end

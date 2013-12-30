@@ -1,8 +1,7 @@
 require 'settingslogic'
 require 'request_store'
-require 'droom_client/engine'
+require 'cdb_client/engine'
 
-
-module DroomClient
+module CdbClient
   class AuthRequired < StandardError; end
 end
