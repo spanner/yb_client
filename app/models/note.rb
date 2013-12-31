@@ -1,15 +1,16 @@
 class Note
   include PaginatedHer::Model
+  use_api CDB
   belongs_to :person, foreign_key: :person_uid
+  collection_path "people/:person_uid/notes"
   
-  def self.default_attributes
-    {title: "", text: ""}
+  def self.new_with_defaults(attributes={})
+    self.new({
+      title: "", 
+      text: ""
+    }.merge(attributes))
   end
   
-  def author
-    CdbClient.user_class.find(created_by_uid) if CdbClient.user_class?
-  end
-
   def date
     DateTime.parse(created_at)
   end

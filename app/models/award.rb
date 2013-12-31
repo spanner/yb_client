@@ -8,6 +8,15 @@ class Award
   belongs_to :country, foreign_key: :country_code
   belongs_to :person, foreign_key: :person_uid
   
+  def self.new_with_defaults(attributes={})
+    Award.new({
+      name: "",
+      award_type_code: "",
+      category_code: "",
+      year: Date.today.year
+    }.merge(attributes))
+  end
+
   def summary
     "##{record_no}: #{name} to #{person.name}"
   end

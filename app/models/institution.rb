@@ -38,5 +38,4 @@ class Institution
     end
   end
 
-
 end
