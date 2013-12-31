@@ -1,5 +1,6 @@
 class Country
-  include PaginatedAuthorizedHer::Model
+  include PaginatedHer::Model
+  use_api CDB
 
   def self.for_selection
     countries = self.all.sort_by(&:name)
@@ -11,6 +12,10 @@ class Country
 
   def self.likely_for_selection
     self.where(likely: true).map{|c| [c.name, c.code] }
+  end
+
+  def self.active_for_selection
+    self.where(active: true).map{|c| [c.name, c.code] }
   end
 
   def likely?

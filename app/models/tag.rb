@@ -1,3 +1,4 @@
 class Tag
-  include PaginatedAuthorizedHer::Model
+  include PaginatedHer::Model
+  use_api CDB
 end

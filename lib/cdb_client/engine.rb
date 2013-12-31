@@ -1,5 +1,3 @@
-require 'concerns/cdb_authentication'
-require 'concerns/has_cdb_user'
 require 'concerns/hk_names'
 
 module CdbClient
