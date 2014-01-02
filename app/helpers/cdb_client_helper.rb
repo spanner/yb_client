@@ -5,7 +5,9 @@ module CdbClientHelper
   end
 
   def cdb_host
-  "#{Settings.cdb.protocol}://#{Settings.cdb.host}"
+    Settings.cdb[:asset_host] ||= Settings.cdb.host
+    Settings.cdb[:protocol] ||= 'http'
+    "#{Settings.cdb.protocol}://#{Settings.cdb.asset_host}"
   end
 
 end
