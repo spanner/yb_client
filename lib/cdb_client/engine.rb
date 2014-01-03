@@ -1,5 +1,3 @@
-require 'concerns/hk_names'
-
 module CdbClient
   class Engine < ::Rails::Engine
 

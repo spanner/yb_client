@@ -32,7 +32,7 @@ class Person
       mobile: "",
       correspondence_address: "",
       hidden: false,
-      blacklisted: false
+      blacklisted: fals
     })
   end
 
@@ -45,11 +45,11 @@ class Person
   end
 
   def ias?
-    !!ias
+    awards.any? { |a| a.award_type_code == 'ias'}
   end
 
   def srf?
-    !!srf
+    awards.any? { |a| a.award_type_code == 'srf'}
   end
 
   def status

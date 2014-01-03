@@ -21,7 +21,12 @@ class Award
     "##{record_no}: #{name} to #{person.name}"
   end
   
-  def person
-    Person.find(self.person_uid)
+  def name_or_award_type_name
+    name.present? ? name : award_type.name
   end
+
+  def short_name_or_award_type_name
+    name.present? ? name : award_type.short_name
+  end
+  
 end
