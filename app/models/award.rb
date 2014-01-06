@@ -26,7 +26,13 @@ class Award
   end
 
   def short_name_or_award_type_name
-    name.present? ? name : award_type.short_name
+    if name.present?
+      name
+    elsif award_type
+      award_type.short_name
+    else
+      "Unknown award type (#{id})"
+    end
   end
   
 end
