@@ -73,5 +73,15 @@ class Person
   def icon
     images[:icon]
   end
+  
+  def pronoun
+    if gender? && gender == "f"
+      I18n.t(:she)
+    else
+      I18n.t(:he)
+    end
+  end
+    
+  end
 
 end

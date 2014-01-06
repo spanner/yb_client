@@ -16,6 +16,7 @@ en:
     greeting: "<strong>Hello %{name}!</strong><br>You have signed in."
     goodbye: "<strong>Goodbye %{name}.</strong><br>You have signed out."
   forgot_password: "Forgotten your password?"
+  he: "he"
   placeholders:
     user:
       title: "e.g. Mr, Professor"
@@ -30,5 +31,6 @@ en:
     user_email: "This is the email that you use to sign in, and to which we send reminders and administrative messages."
   please_sign_in: "Please sign in"
   preferences: "Preferences"
+  she: "she"
   sign_in: "Sign in"
   sign_out: "Sign out"
