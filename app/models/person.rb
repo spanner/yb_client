@@ -32,7 +32,7 @@ class Person
       mobile: "",
       correspondence_address: "",
       hidden: false,
-      blacklisted: fals
+      blacklisted: false
     })
   end
 
