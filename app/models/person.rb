@@ -81,7 +81,5 @@ class Person
       I18n.t(:he)
     end
   end
-    
-  end
 
 end
