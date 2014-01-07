@@ -9,6 +9,7 @@ class Person
   has_many :tags
   has_many :notes
   belongs_to :country, foreign_key: :country_code
+  belongs_to :graduated_from, foreign_key: :graduated_from_code, class_name: "Institution"
 
   def self.for_selection
     Person.all.sort_by(&:name).map{|p| [p.name, p.uid] }
@@ -32,7 +33,12 @@ class Person
       mobile: "",
       correspondence_address: "",
       hidden: false,
-      blacklisted: false
+      blacklisted: false,
+      graduated_from_code: "",
+      graduated_year: "",
+      msc_year: "", 
+      mphil_year: "",
+      phd_year: ""
     })
   end
 
