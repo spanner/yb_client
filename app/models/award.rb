@@ -11,6 +11,7 @@ class Award
   def self.new_with_defaults(attributes={})
     Award.new({
       name: "",
+      title: "",
       award_type_code: "",
       category_code: "",
       country_code: "",
