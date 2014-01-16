@@ -1,18 +1,20 @@
 class Award
   include PaginatedHer::Model
   use_api CDB
-  
+
   belongs_to :institution, foreign_key: :institution_code
   belongs_to :category, foreign_key: :category_code
   belongs_to :award_type, foreign_key: :award_type_code
   belongs_to :country, foreign_key: :country_code
   belongs_to :person, foreign_key: :person_uid
-  
+
   def self.new_with_defaults(attributes={})
     Award.new({
       name: "",
       award_type_code: "",
       category_code: "",
+      country_code: "",
+      institution_code: "",
       year: Date.today.year
     }.merge(attributes))
   end
