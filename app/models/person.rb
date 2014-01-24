@@ -72,8 +72,8 @@ class Person
     images[:standard]
   end
 
-  def thumbnail
-    images[:thumbnail]
+  def thumb
+    images[:thumb]
   end
 
   def icon
