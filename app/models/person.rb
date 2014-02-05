@@ -1,8 +1,8 @@
 class Person
   include HkNames
-  
   include PaginatedHer::Model
   use_api CDB
+  collection_path "/api/people"
   primary_key :uid
 
   has_many :awards

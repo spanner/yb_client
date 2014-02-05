@@ -1,6 +1,7 @@
 class Award
   include PaginatedHer::Model
   use_api CDB
+  collection_path "/api/awards"
 
   belongs_to :institution, foreign_key: :institution_code
   belongs_to :category, foreign_key: :category_code
