@@ -11,37 +11,39 @@ class Person
   belongs_to :country, foreign_key: :country_code
   belongs_to :graduated_from, foreign_key: :graduated_from_code, class_name: "Institution"
 
-  def self.for_selection
-    Person.all.sort_by(&:name).map{|p| [p.name, p.uid] }
+  class << self
+    def for_selection
+      Person.all.sort_by(&:name).map{|p| [p.name, p.uid] }
+    end
+  
+    def new_with_defaults
+      Person.new({
+        title: "",
+        family_name: "",
+        given_name: "",
+        chinese_name: "",
+        award_type_code: "",
+        pob: "",
+        dob: nil,
+        post: "",
+        department: "",
+        employer: "",
+        country_code: "HKG",
+        email: "",
+        phone: "",
+        mobile: "",
+        correspondence_address: "",
+        hidden: false,
+        blacklisted: false,
+        graduated_from_code: "",
+        graduated_year: "",
+        msc_year: "", 
+        mphil_year: "",
+        phd_year: ""
+      })
+    end
   end
   
-  def self.new_with_defaults
-    Person.new({
-      title: "",
-      family_name: "",
-      given_name: "",
-      chinese_name: "",
-      award_type_code: "",
-      pob: "",
-      dob: nil,
-      post: "",
-      department: "",
-      employer: "",
-      country_code: "HKG",
-      email: "",
-      phone: "",
-      mobile: "",
-      correspondence_address: "",
-      hidden: false,
-      blacklisted: false,
-      graduated_from_code: "",
-      graduated_year: "",
-      msc_year: "", 
-      mphil_year: "",
-      phd_year: ""
-    })
-  end
-
   def invitable?
     email?
   end
