@@ -31,9 +31,7 @@ class Institution
   # when in object position. Eg. studying at the University of Cambridge vs. studying at Oxford University.
   # 
   def definite_name(prefix="the")
-    puts "deriving definite_name of #{self}"
-  
-    if self.name =~ /of/i
+    if self.name =~ /\b(of|for)\b/i
       "#{prefix} #{self.name}"
     else
       self.name
