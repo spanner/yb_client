@@ -7,6 +7,8 @@ class InstitutionsController < ApplicationController
     respond_with @institutions
   end
 
+  protected
+  
   def get_institutions
     @institutions = Institution.for_selection(params[:country_code])
   end

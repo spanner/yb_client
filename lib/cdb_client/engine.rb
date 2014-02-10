@@ -1,3 +1,6 @@
+require 'concerns/has_institution'
+require 'concerns/hk_names'
+
 module CdbClient
   class Engine < ::Rails::Engine
 
