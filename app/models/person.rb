@@ -11,6 +11,8 @@ class Person
   belongs_to :country, foreign_key: :country_code
   belongs_to :graduated_from, foreign_key: :graduated_from_code, class_name: "Institution"
 
+  after_save :decache
+
   class << self
     def for_selection
       Person.all.sort_by(&:name).map{|p| [p.name, p.uid] }
@@ -91,4 +93,19 @@ class Person
     end
   end
 
+  protected
+  
+  def decache(and_associates=true)
+    if $cache
+      path = self.class.collection_path
+      $cache.delete path
+      $cache.delete "#{path}/#{self.to_param}"
+      if and_associates && self.person
+        self.awards.each do |a|
+          a.send(:decache, false)
+        end
+      end
+    end
+  end
+  
 end

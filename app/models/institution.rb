@@ -6,6 +6,8 @@ class Institution
 
   belongs_to :country, foreign_key: :country_code
 
+  after_save :decache
+
   # *for_selection* returns a set of [name, id] pairs suitable for use as select options.
   def self.for_selection(country_code=nil)
     if country_code.present?
@@ -27,8 +29,8 @@ class Institution
 
   ## Output formatting
   #
-  # The prepositionishness of names like "University of Cambridge" requires us to prepend a 'the'
-  # when in object position. Eg. studying at the University of Cambridge vs. studying at Oxford University.
+  # The prepositionishness of names like 'University of Cambridge' requires us to prepend a 'the'
+  # when in object position. Eg. 'studying at the University of Cambridge' vs. 'studying at Oxford University'.
   # 
   def definite_name(prefix="the")
     if name =~ /\b(of|for)\b/i
@@ -43,6 +45,16 @@ class Institution
       abbreviation
     else
       definite_name(prefix)
+    end
+  end
+
+  protected
+
+  def decache
+    if $cache
+      path = self.class.collection_path
+      $cache.delete path
+      $cache.delete "#{path}/#{self.to_param}"
     end
   end
 
