@@ -100,7 +100,7 @@ class Person
       path = self.class.collection_path
       $cache.delete path
       $cache.delete "#{path}/#{self.to_param}"
-      if and_associates && self.person
+      if and_associates
         self.awards.each do |a|
           a.send(:decache, false)
         end
