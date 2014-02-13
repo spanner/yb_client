@@ -18,6 +18,7 @@ class Person
   
     def new_with_defaults
       Person.new({
+        uid: "",
         title: "",
         family_name: "",
         given_name: "",

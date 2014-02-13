@@ -22,7 +22,7 @@ class Institution
     else
       insts = self.where(active: true)
     end
-    insts.sort_by(&:normalized_name).map{|inst| [inst.normalized_name, inst.code] }
+    insts.sort_by(&:normalized_name).map{|inst| [inst.colloquial_name, inst.code] }
   end
 
   ## Output formatting
@@ -31,10 +31,18 @@ class Institution
   # when in object position. Eg. studying at the University of Cambridge vs. studying at Oxford University.
   # 
   def definite_name(prefix="the")
-    if self.name =~ /\b(of|for)\b/i
-      "#{prefix} #{self.name}"
+    if name =~ /\b(of|for)\b/i
+      "#{prefix} #{name}"
     else
-      self.name
+      name
+    end
+  end
+
+  def colloquial_name(prefix="the")
+    if abbreviation?
+      abbreviation
+    else
+      definite_name(prefix)
     end
   end
 
