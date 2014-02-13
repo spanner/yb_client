@@ -10,7 +10,11 @@ class InstitutionsController < ApplicationController
   protected
   
   def get_institutions
-    @institutions = Institution.for_selection(params[:country_code])
+    if params[:active]
+      @institutions = Institution.active_for_selection(params[:country_code])
+    else
+      @institutions = Institution.for_selection(params[:country_code])
+    end
   end
 
 end
