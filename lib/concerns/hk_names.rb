@@ -44,6 +44,18 @@ module HkNames
   # The family name is held separately because for most purposes we will address people using the relatively 
   # reliable 'Dr Chan' or 'Mr Smith'.
   #
+  def title
+    read_attribute(:title) || ordinary_title
+  end
+  
+  def ordinary_title
+    gender == 'f' ? "Ms" : "Mr"
+  end
+  
+  def normalized_title
+    title.gsub('.', '').strip
+  end
+  
   def title_ordinary?
     ['Mr', 'Ms', 'Mrs', '', nil].include?(title)
   end
