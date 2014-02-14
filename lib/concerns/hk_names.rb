@@ -56,7 +56,7 @@ module HkNames
   end
   
   def title_ordinary?
-    ['Mr', 'Ms', 'Mrs', '', nil].include?(normalized_title)
+    ['Mr', 'Ms', 'Mrs', '', nil].include?(title)
   end
   
   def title_if_it_matters
