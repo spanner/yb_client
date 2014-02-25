@@ -1,4 +1,5 @@
 require 'concerns/has_institution'
+require 'concerns/has_country'
 require 'concerns/hk_names'
 
 module CdbClient
