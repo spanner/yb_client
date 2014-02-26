@@ -26,7 +26,7 @@ class Institution
     end
     insts.sort_by(&:normalized_name).map{|inst| [inst.colloquial_name, inst.code] }
   end
-
+  
   ## Output formatting
   #
   # The prepositionishness of names like 'University of Cambridge' requires us to prepend a 'the'
@@ -46,6 +46,10 @@ class Institution
     else
       definite_name(prefix)
     end
+  end
+  
+  def in_london?
+    !!london && country_code == "GBR"
   end
 
   protected
