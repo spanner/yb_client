@@ -64,10 +64,10 @@ class Person
   end
 
   def status
-    if ias?
-      "ias"
-    elsif srf?
+    if srf?
       "srf"
+    elsif ias?
+      "ias"
     else
       "scholar"
     end
