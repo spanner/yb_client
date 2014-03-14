@@ -9,6 +9,7 @@ class Person
   has_many :tags
   has_many :notes
   belongs_to :country, foreign_key: :country_code
+  belongs_to :institution, foreign_key: :institution_code
   belongs_to :graduated_from, foreign_key: :graduated_from_code, class_name: "Institution"
 
   after_save :decache
@@ -42,7 +43,8 @@ class Person
         graduated_year: "",
         msc_year: "", 
         mphil_year: "",
-        phd_year: ""
+        phd_year: "",
+        page_id: ""
       })
     end
   end
@@ -98,7 +100,9 @@ class Person
   def decache(and_associates=true)
     if $cache
       path = self.class.collection_path
+      Rails.logger.warn "xx  decache #{path}"
       $cache.delete path
+      Rails.logger.warn "xx  decache #{path}/#{self.to_param}"
       $cache.delete "#{path}/#{self.to_param}"
       if and_associates
         self.awards.each do |a|

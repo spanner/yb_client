@@ -19,12 +19,15 @@ class Institution
   end
 
   def self.active_for_selection(country_code=nil)
+    active(country_code).sort_by(&:normalized_name).map{|inst| [inst.colloquial_name, inst.code] }
+  end
+  
+  def self.active(country_code=nil)
     if country_code.present?
-      insts = self.where(:country_code => country_code, active: true)
+      self.where(:country_code => country_code, active: true)
     else
-      insts = self.where(active: true)
+      self.where(active: true)
     end
-    insts.sort_by(&:normalized_name).map{|inst| [inst.colloquial_name, inst.code] }
   end
   
   ## Output formatting
