@@ -94,6 +94,27 @@ class Person
       I18n.t(:he)
     end
   end
+  
+  def whereabouts_explanation
+    case whereabouts
+    when "D" then "Due to start"
+    when "S" then "Studying"
+    when "C" then "Continued"
+    when "K" then "Known"
+    when "U" then "Unknown"
+    else ""
+    end
+  end
+  
+  def self.whereabouts_options
+    [
+      ["Due to start", "D"],
+      ["Studying", "S"],
+      ["Continued", "C"],
+      ["Known", "K"],
+      ["Unknown","U"]
+    ]
+  end
 
   protected
   

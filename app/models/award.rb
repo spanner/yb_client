@@ -41,8 +41,21 @@ class Award
     end
   end
 
+  ## Duration and extension
+  #
+  #
+  def expected_end_date
+    if end_date
+      expected_end_date = end_date
+    elsif begin_date && duration
+      expected_end_date = begin_date + (duration * 12).to_i.months
+      expected_end_date += extension.months if extended? && extension
+    end
+    expected_end_date
+  end
+
   protected
-  
+
   def decache(and_associates=true)
     if $cache
       path = self.class.collection_path
