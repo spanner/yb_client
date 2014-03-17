@@ -21,6 +21,8 @@ class Award
       country_code: "",
       institution_code: "",
       second_institution_code: "",
+      institution_name: "",
+      second_institution_name: "",
       year: Date.today.year
     }.merge(attributes))
   end
