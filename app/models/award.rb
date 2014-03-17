@@ -4,7 +4,7 @@ class Award
   collection_path "/api/awards"
 
   belongs_to :institution, foreign_key: :institution_code
-  belongs_to :second_institution, foreign_key: :second_institution_code
+  belongs_to :second_institution, foreign_key: :second_institution_code, class_name: "Institution"
   belongs_to :category, foreign_key: :category_code
   belongs_to :award_type, foreign_key: :award_type_code
   belongs_to :country, foreign_key: :country_code
