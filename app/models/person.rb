@@ -31,6 +31,7 @@ class Person
         dob: nil,
         post: "",
         department: "",
+        institution_code: "",
         employer: "",
         country_code: "HKG",
         email: "",

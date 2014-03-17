@@ -20,6 +20,7 @@ class Award
       category_code: "",
       country_code: "",
       institution_code: "",
+      second_institution_code: "",
       year: Date.today.year
     }.merge(attributes))
   end
