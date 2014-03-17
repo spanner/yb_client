@@ -21,7 +21,7 @@ class Person
   
     def new_with_defaults
       Person.new({
-        uid: "",
+        uid: nil,
         title: "",
         family_name: "",
         given_name: "",
@@ -33,6 +33,7 @@ class Person
         department: "",
         institution_code: "",
         employer: "",
+        employer_address: "",
         country_code: "HKG",
         email: "",
         phone: "",
@@ -49,11 +50,11 @@ class Person
       })
     end
   end
-  
+
   def invitable?
     email?
   end
-  
+
   def to_param
     uid
   end
