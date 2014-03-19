@@ -20,15 +20,8 @@ class Note
 
   protected
 
-  def decache(and_associates=true)
-    if $cache
-      path = self.class.collection_path
-      Rails.logger.warn "xx  decache #{path}"
-      $cache.delete path
-      Rails.logger.warn "xx  decache #{path}/#{self.to_param}"
-      $cache.delete "#{path}/#{self.to_param}"
-      self.person.send(:decache, false) if and_associates && self.person
-    end
+  def decache
+    $cache.flush_all if $cache
   end
 
 end

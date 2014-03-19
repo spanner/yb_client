@@ -58,11 +58,7 @@ class Institution
   protected
 
   def decache
-    if $cache
-      path = self.class.collection_path
-      $cache.delete path
-      $cache.delete "#{path}/#{self.to_param}"
-    end
+    $cache.flush_all if $cache
   end
 
 end

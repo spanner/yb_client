@@ -60,13 +60,8 @@ class Award
 
   protected
 
-  def decache(and_associates=true)
-    if $cache
-      path = self.class.collection_path
-      $cache.delete path
-      $cache.delete "#{path}/#{self.to_param}"
-      self.person.send(:decache, false) if and_associates && self.person
-    end
+  def decache
+    $cache.flush_all if $cache
   end
 
 end

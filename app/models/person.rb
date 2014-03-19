@@ -120,19 +120,8 @@ class Person
 
   protected
   
-  def decache(and_associates=true)
-    if $cache
-      path = self.class.collection_path
-      Rails.logger.warn "xx  decache #{path}"
-      $cache.delete path
-      Rails.logger.warn "xx  decache #{path}/#{self.to_param}"
-      $cache.delete "#{path}/#{self.to_param}"
-      if and_associates
-        self.awards.each do |a|
-          a.send(:decache, false)
-        end
-      end
-    end
+  def decache
+    $cache.flush_all if $cache
   end
   
 end
