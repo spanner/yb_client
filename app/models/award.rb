@@ -23,6 +23,8 @@ class Award
       second_institution_code: "",
       institution_name: "",
       second_institution_name: "",
+      begin_date: "",
+      extension: "",
       year: Date.today.year
     }.merge(attributes))
   end
