@@ -6,6 +6,7 @@ class Person
   primary_key :uid
 
   has_many :awards
+  has_many :grants
   has_many :tags
   has_many :notes
   belongs_to :country, foreign_key: :country_code

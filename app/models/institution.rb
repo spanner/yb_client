@@ -54,6 +54,18 @@ class Institution
   def in_london?
     !!london && country_code == "GBR"
   end
+  
+  def image
+    images[:standard]
+  end
+
+  def thumb
+    images[:thumb]
+  end
+
+  def icon
+    images[:icon]
+  end
 
   protected
 
