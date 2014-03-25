@@ -12,10 +12,14 @@ module HasInstitution
     Institution.find(institution_code) if institution_code?
   end
   
+  def institution?
+    institution_code? && institution
+  end
+  
   def institution_name
     if @institution_name.present?
       @institution_name
-    elsif institution
+    elsif institution?
       institution.name
     end
   end
