@@ -8,7 +8,16 @@ module HasGrant
   end
 
   def grant
-    Grant.find(grant_id) if grant_id?
+    @grant ||= Grant.find(grant_id) if grant_id?
+  end
+  
+  def grant=(grant)
+    if grant
+      self.grant_id = grant.id
+    else
+      self.grant_id = nil
+    end
+    @grant = grant
   end
   
   def grant?
