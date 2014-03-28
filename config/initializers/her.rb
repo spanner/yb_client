@@ -3,8 +3,11 @@ require 'paginated_her'
 require 'dalli-elasticache'
 require 'faraday_middleware/response/caching'
 
-Settings.cdb[:protocol] ||= 'http'
-Settings.cdb[:port] ||= '80'
+Settings.cap ||= {}
+Settings.cap[:protocol] ||= 'http'
+Settings.cap[:host] ||= 'localhost'
+Settings.cap[:port] ||= '8006'
+
 Settings[:memcached] ||= {}
 Settings.memcached[:endpoint] ||= nil
 Settings.memcached[:host] ||= nil
@@ -19,16 +22,10 @@ elsif Settings.memcached.host
   $cache ||= Dalli::Client.new("#{Settings.memcached.host}:#{Settings.memcached.port}", expires_in: Settings.memcached.ttl)
 end
 
-CDB = Her::API.new
-CDB.setup url: "#{Settings.cdb.protocol}://#{Settings.cdb.host}:#{Settings.cdb.port}" do |c|
-  # Request
+CAP = Her::API.new
+CAP.setup url: "#{Settings.gap.protocol}://#{Settings.gap.host}:#{Settings.gap.port}" do |c|
   c.use FaradayMiddleware::Caching, $cache.clone if $cache
   c.use Faraday::Request::UrlEncoded
-
-  # Response
   c.use PaginatedHer::Middleware::Parser
   c.use Faraday::Adapter::NetHttp
 end
-
-
-

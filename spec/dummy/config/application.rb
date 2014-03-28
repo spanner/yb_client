@@ -8,7 +8,7 @@ require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 Bundler.require(*Rails.groups)
-require "cdb_client"
+require "cap_client"
 
 module Dummy
   class Application < Rails::Application

@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
 
-  mount CdbClient::Engine => "/cdb_client"
+  mount CapClient::Engine => "/cap_client"
 end

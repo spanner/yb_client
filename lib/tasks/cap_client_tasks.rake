@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :cdb_client do
+# task :cap_client do
 #   # Task goes here
 # end

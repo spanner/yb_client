@@ -1,9 +1,9 @@
 require 'settingslogic'
 require 'request_store'
 require 'dalli-elasticache'
-require 'cdb_client/engine'
+require 'cap_client/engine'
 
-module CdbClient
+module CapClient
   class AuthRequired < StandardError; end
   
 end
