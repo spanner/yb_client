@@ -4,6 +4,8 @@ class Round
 
   use_api CAP
   collection_path "/api/rounds"
+
+  belongs_to :round_type
   has_many :applications
 
   after_save :decache
@@ -12,6 +14,13 @@ class Round
     Round.new({
       
     }.merge(attributes))
+  end
+
+  def path
+    parts = ['rounds']
+    parts.push(round_type.slug) if round_type
+    parts.push(slug)
+    parts.join('/')
   end
 
   protected

@@ -5,9 +5,8 @@ module CapClientHelper
   end
 
   def cap_host
-    Settings.cap[:asset_host] ||= Settings.cap.host
     Settings.cap[:protocol] ||= 'http'
-    "#{Settings.cap.protocol}://#{Settings.cap.asset_host}"
+    "#{Settings.cap.protocol}://#{Settings.cap.host}"
   end
 
 end
