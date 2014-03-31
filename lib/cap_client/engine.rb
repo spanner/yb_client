@@ -1,8 +1,4 @@
-require 'concerns/has_award'
-require 'concerns/has_country'
-require 'concerns/has_grant'
-require 'concerns/has_institution'
-require 'concerns/hk_names'
+require 'concerns/has_round'
 
 module CapClient
   class Engine < ::Rails::Engine
