@@ -22,6 +22,18 @@ class Round
     parts.push(slug)
     parts.join('/')
   end
+  
+  def open?
+    applications_end && (closing_date > Time.now) && (!opening_date || opening_date < Time.now)
+  end
+
+  def opening_date
+    Date.parse(start) if start?
+  end
+  
+  def closing_date
+    Date.parse(applications_end) if applications_end?
+  end
 
   protected
 
