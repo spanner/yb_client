@@ -5,8 +5,8 @@ require 'faraday_middleware/response/caching'
 
 Settings.cap ||= {}
 Settings.cap[:protocol] ||= 'http'
-Settings.cap[:host] ||= 'localhost'
-Settings.cap[:port] ||= '8006'
+Settings.cap[:api_host] ||= Settings.cap[:host] || 'localhost'
+Settings.cap[:api_port] ||= Settings.cap[:port] || 8006
 
 Settings[:memcached] ||= {}
 Settings.memcached[:endpoint] ||= nil
@@ -23,7 +23,7 @@ elsif Settings.memcached.host
 end
 
 CAP = Her::API.new
-CAP.setup url: "#{Settings.cap.protocol}://#{Settings.cap.host}:#{Settings.cap.port}" do |c|
+CAP.setup url: "#{Settings.cap.protocol}://#{Settings.cap.api_host}:#{Settings.cap.api_port}" do |c|
   c.use FaradayMiddleware::Caching, $cache.clone if $cache
   c.use Faraday::Request::UrlEncoded
   c.use PaginatedHer::Middleware::Parser
