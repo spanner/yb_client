@@ -30,9 +30,17 @@ class Round
   def opening_date
     Date.parse(start) if start?
   end
+
+  def opening_datetime
+    DateTime.parse(start) if start?
+  end
   
   def closing_date
     Date.parse(applications_end) if applications_end?
+  end
+
+  def closing_datetime
+    DateTime.parse(applications_end) if applications_end?
   end
 
   protected
