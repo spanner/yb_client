@@ -6,7 +6,7 @@ class Round
   collection_path "/api/rounds"
 
   belongs_to :round_type
-  has_many :applications
+  # has_many :applications
 
   after_save :decache
 

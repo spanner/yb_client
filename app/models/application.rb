@@ -7,16 +7,6 @@ class Application
 
   after_save :decache
 
-  def self.new_with_defaults(attributes={})
-    Application.new({
-      
-    }.merge(attributes))
-  end
-  
-  def round_name
-    round.name if round
-  end
-
   protected
 
   def decache
