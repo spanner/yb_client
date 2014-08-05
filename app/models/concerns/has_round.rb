@@ -3,10 +3,6 @@
 module HasRound
   extend ActiveSupport::Concern
 
-  included do
-    scope :without_round, -> { where('round_id IS NULL OR round_id = ""') }
-  end
-
   def round
     Round.find(round_id) if round_id?
   end
