@@ -12,6 +12,10 @@ class Application
       
     }.merge(attributes))
   end
+  
+  def round_name
+    round.name if round
+  end
 
   protected
 

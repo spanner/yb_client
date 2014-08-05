@@ -15,5 +15,5 @@ module HasApplication
   def application?
     application_id && application
   end
-    
+  
 end
