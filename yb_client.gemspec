@@ -1,15 +1,15 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "cap_client/version"
+require "yb_client/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "cap_client"
-  s.version     = CapClient::VERSION
+  s.name        = "yb_client"
+  s.version     = YbClient::VERSION
   s.authors     = ["William Ross"]
   s.email       = ["will@spanner.org"]
-  s.homepage    = "https://github.com/spanner/cap_client"
+  s.homepage    = "https://github.com/spanner/yb_client"
   s.summary     = "Holds in one place all the gubbins necessary to act as a core data client."
   s.description = "For now just a convenience and maintenance simplifier."
 

@@ -1,6 +1,6 @@
 require 'concerns/has_round'
 
-module CapClient
+module YbClient
   class Engine < ::Rails::Engine
 
     config.generators do |g|
@@ -8,9 +8,9 @@ module CapClient
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
     end
     
-    initializer "cap_client.integration" do
+    initializer "yb_client.integration" do
       ActiveSupport.on_load :action_controller do
-        helper CapClientHelper
+        helper YbClientHelper
       end
     end
 

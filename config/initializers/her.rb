@@ -22,8 +22,8 @@ elsif Settings.memcached.host
   $cache ||= Dalli::Client.new("#{Settings.memcached.host}:#{Settings.memcached.port}", expires_in: Settings.memcached.ttl)
 end
 
-CAP = Her::API.new
-CAP.setup url: "#{Settings.cap.protocol}://#{Settings.cap.api_host}:#{Settings.cap.api_port}" do |c|
+YB = Her::API.new
+YB.setup url: "#{Settings.yearbook.protocol}://#{Settings.yearbook.api_host}:#{Settings.yearbook.api_port}" do |c|
   c.use FaradayMiddleware::Caching, $cache.clone if $cache
   c.use Faraday::Request::UrlEncoded
   c.use PaginatedHer::Middleware::Parser

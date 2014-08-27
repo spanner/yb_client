@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
 
-  mount CapClient::Engine => "/cap_client"
+  mount YbClient::Engine => "/yb_client"
 end

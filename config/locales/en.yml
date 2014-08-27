@@ -1,7 +1,7 @@
 en:
   activerecord:
     attributes:
-      cap_client:
+      yb_client:
         application:
         round:
         round_type:
