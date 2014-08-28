@@ -1,5 +1,3 @@
-require 'concerns/has_round'
-
 module YbClient
   class Engine < ::Rails::Engine
 

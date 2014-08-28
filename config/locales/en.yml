@@ -2,6 +2,3 @@ en:
   activerecord:
     attributes:
       yb_client:
-        application:
-        round:
-        round_type:

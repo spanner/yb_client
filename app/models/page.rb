@@ -1,9 +1,8 @@
 class Page
   include PaginatedHer::Model
   use_api YB
-  collection_path "/api/people/:person_uid/pages"
+  collection_path "/api/pages"
   has_one :publication
-  after_save :decache
 
   def self.new_with_defaults(attributes={})
     page = Page.new({
@@ -27,15 +26,7 @@ class Page
   def new_record?
     id.nil?
   end
-  
-  def person
-    Person.find(person_uid) if person_uid.present?
-  end
 
-  def user
-    Droom::User.find_by(person_uid: person_uid) if person_uid.present?
-  end
-  
   def featured_date
     DateTime.parse(featured_at)
   end
@@ -111,12 +102,6 @@ class Page
       featured_at: featured_at,
       slug: slug
     }
-  end
-
-  protected
-  
-  def decache
-    $cache.flush_all if $cache
   end
 
 end

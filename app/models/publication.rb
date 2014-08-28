@@ -1,7 +1,7 @@
 class Publication
   include PaginatedHer::Model
   use_api YB
-  collection_path "/api/people/:person_uid/publications"
+  collection_path "/api/publications"
   belongs_to :page
   
   def date
