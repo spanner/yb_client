@@ -8,7 +8,7 @@ module HasPage
   end
 
   def page?
-    !!page
+    page_id? && !!page
   end
 
   def publication
