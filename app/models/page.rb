@@ -61,7 +61,7 @@ class Page
   end
 
   def accepted_date
-    DateTime.parse(accepted_at) if accepted_at.present?
+    DateTime.parse(accepted_at).in_time_zone(Rails.application.config.time_zone) if accepted_at.present?
   end
 
   def reminded?
@@ -73,7 +73,7 @@ class Page
   end
 
   def reminded_date
-    DateTime.parse(reminded_at)
+    DateTime.parse(reminded_at).in_time_zone(Rails.application.config.time_zone) if reminded_at.present?
   end
   
   def published?
@@ -89,7 +89,7 @@ class Page
   end
   
   def reminded_to_publish_date
-    DateTime.parse(reminded_to_publish_at)
+    DateTime.parse(reminded_to_publish_at).in_time_zone(Rails.application.config.time_zone) if reminded_to_publish_at.present?
   end
   
   def as_json(options={})
