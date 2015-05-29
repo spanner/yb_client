@@ -6,7 +6,7 @@ module YbClientHelper
 
   def yb_host
     Settings.yearbook[:protocol] ||= 'http'
-    "#{Settings.yearbook.protocol}://#{Settings.yearbook.host}"
+    "#{Settings.yearbook.protocol}://#{Settings.yearbook.api_host}"
   end
 
 end
