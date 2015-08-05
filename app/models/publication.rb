@@ -1,5 +1,5 @@
 class Publication
-  include PaginatedHer::Model
+  include Her::JsonApi::Model
   use_api YB
   collection_path "/api/publications"
   belongs_to :page
