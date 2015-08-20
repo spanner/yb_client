@@ -1,11 +1,11 @@
-class Page
+class PersonPage
   include Her::JsonApi::Model
   use_api YB
   collection_path "/api/pages"
-  has_one :publication
+  has_one :person_publication
 
   def self.new_with_defaults(attributes={})
-    page = Page.new({
+    person_page = PersonPage.new({
       person_uid: nil,
       send_invitation: false,
       send_reminder: false,
@@ -20,7 +20,7 @@ class Page
       biog: "",
       currently: ""
     }.merge(attributes))
-    page
+    person_page
   end
   
   def new_record?

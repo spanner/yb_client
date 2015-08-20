@@ -1,4 +1,4 @@
-class Publication
+class PersonPublication
   include Her::JsonApi::Model
   use_api YB
   collection_path "/api/publications"
