@@ -1,6 +1,7 @@
 require 'settings'
-require 'her'
 require 'faraday_middleware'
+require 'her'
+require 'her/middleware/json_api_parser'
 
 Settings.cap ||= {}
 Settings.cap[:protocol] ||= 'http'

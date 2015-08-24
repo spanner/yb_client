@@ -1,8 +1,11 @@
 class PersonPage
   include Her::JsonApi::Model
   use_api YB
-  collection_path "/api/pages"
-  has_one :person_publication
+  collection_path "/api/person_pages"
+
+  # temporary while we are not yet sending jsonapi data back to core properly
+  include_root_in_json true
+  parse_root_in_json false
 
   def self.new_with_defaults(attributes={})
     person_page = PersonPage.new({
@@ -22,7 +25,7 @@ class PersonPage
     }.merge(attributes))
     person_page
   end
-  
+
   def new_record?
     id.nil?
   end
@@ -30,20 +33,7 @@ class PersonPage
   def featured_date
     DateTime.parse(featured_at)
   end
-  
-  def featured=(value)
-    value = false if value == 'false'
-    if value
-      self.featured_at = Time.now
-    else
-      self.featured_at = nil
-    end
-  end
-  
-  def featured?
-    !featured_at.nil?
-  end
-  
+
   def invited?
     !invited_at.nil?
   end
@@ -67,7 +57,7 @@ class PersonPage
   def reminded?
     !reminded_at.nil?
   end
-  
+
   def remindable?
     invited? && !accepted?
   end
@@ -75,33 +65,25 @@ class PersonPage
   def reminded_date
     DateTime.parse(reminded_at).in_time_zone(Rails.application.config.time_zone) if reminded_at.present?
   end
-  
+
   def published?
-    publication_id && !!publication
+    published_at.present?
+  end
+
+  def published_date
+    DateTime.parse(published_at).in_time_zone(Rails.application.config.time_zone) if published_at.present?
   end
 
   def reminded_to_publish?
     !reminded_to_publish_at.nil?
   end
-  
+
   def remindable_to_publish?
     invited? && user && user.confirmed?
   end
-  
+
   def reminded_to_publish_date
     DateTime.parse(reminded_to_publish_at).in_time_zone(Rails.application.config.time_zone) if reminded_to_publish_at.present?
-  end
-  
-  def as_json(options={})
-    {
-      biog: biog,
-      currently: currently,
-      blacklisted: blacklisted?,
-      hidden: hidden?,
-      featured: featured?,
-      featured_at: featured_at,
-      slug: slug
-    }
   end
 
 end

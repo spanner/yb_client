@@ -4,7 +4,7 @@ module HasPersonPage
   extend ActiveSupport::Concern
 
   def person_page
-    PersonPage.find(page_id)
+    PersonPage.find(person_page_id)
   end
 
   def person_page?
