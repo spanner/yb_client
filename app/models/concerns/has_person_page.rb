@@ -11,12 +11,4 @@ module HasPersonPage
     person_page_id? && !!person_page
   end
 
-  def person_publication
-    person_page.person_publication if person_page?
-  end
-  
-  def publish!
-    person_page.publish!
-  end
-  
 end
