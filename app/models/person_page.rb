@@ -18,10 +18,7 @@ class PersonPage
       invited_at: nil,
       reminded_at: nil,
       accepted_at: nil,
-      name: "",
-      slug: "",
-      biog: "",
-      currently: ""
+      slug: ""
     }.merge(attributes))
     person_page
   end
